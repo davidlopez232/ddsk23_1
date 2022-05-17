@@ -1,0 +1,13 @@
+{% extends 'index.html' %}
+{% block tittle %}Formulario de Contacto {% endblock %}
+{% block main%} Formulario de Contacto {% endblock %}
+{% block body %}
+
+<form method="post">
+    {% csrf_token %} <!-- Este csrf crea la validación para entrada de datos // es un parche de seguridad de django -->
+    {{ form.as_p }} <!-- Organiza la estructura con la etiquta django as -->
+    <button type="sub">CREAR o EDITAR</button>
+
+</form>
+
+{% endblock body %}
