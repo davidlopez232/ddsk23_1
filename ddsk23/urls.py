@@ -16,14 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from principal.views import crearPersona, editarPersona, eliminarPersona, formularioContacto, inicio, contactar
+from principal.class_view import PersonaCreate, PersonaDelete, PersonaList, PersonaUpdate
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',inicio,name= 'index'),
+    path('',PersonaList.as_view(),name= 'index'),
+    
     path('formularioContacto/', formularioContacto),
     path('contactar/', contactar),
-    path('crear_persona/', crearPersona),
-    path('editar_persona/<int:id>/' ,editarPersona, name = 'editar_persona'),
-    path('eliminar_persona/<int:id>/' ,eliminarPersona, name = 'eliminar_persona'),
+    path('crear_persona/', PersonaCreate.as_view(), name = 'crear_persona'),
+    path('editar_persona/<int:pk>/' , PersonaUpdate.as_view(), name = 'editar_persona'),
+    path('eliminar_persona/<int:pk>/', PersonaDelete.as_view(), name = 'eliminar_persona'),
+    
 ]
+
+""" path('',inicio,name= 'index'), """
+""" path('eliminar_persona/<int:id>/' ,eliminarPersona, name = 'eliminar_persona'), """
