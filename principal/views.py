@@ -11,7 +11,7 @@ def inicio(request):
     contexto = {
         'personas':personas
     }
-    return render(request, 'index.html',contexto)
+    return render(request, 'index1.html',contexto)
 
 def formularioContacto(request):
     return render(request, 'formularioContacto.html')
@@ -39,7 +39,7 @@ def crearPersona(request):
        }
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('index1')
     return render(request, 'crear_persona.html', contexto)
 
 def editarPersona(request, id):
@@ -56,10 +56,13 @@ def editarPersona(request, id):
         }
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('index1')
    return render(request, 'crear_persona.html', contexto)
 
 def eliminarPersona(request, id):
     persona = Persona.objects.get(idpersona = id)
     persona.delete()
-    return redirect('index')
+    return redirect('index1')
+
+def indextemplate(request):
+    return render(request, 'index.html')
