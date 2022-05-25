@@ -30,7 +30,9 @@ from .models import TipoDocumento
 from .models import TipoNotificacion
 from .models import TipoPersona
 from .models import Veredas
+from .models import Genero
 
+admin.site.register(Genero)
 admin.site.register(Actividades)
 admin.site.register(Asignatura)
 admin.site.register(Area)

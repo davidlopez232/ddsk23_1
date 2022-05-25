@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load bootstrap4 %}
+
+    {# CSS Bootstrap #}
+    {% bootstrap_css %}
+    {# Widget Tweaks #}
+    {% load widget_tweaks %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar</title>
+    {# Cargamos la librería #}
+
+ <table class="table table-striped table-hover">
+     <thead>
+       <tr>
+         <th width="35%">ID tipo_persona </th>
+         <th>Nombre </th>
+         <th>Descripcion  </th>
+       </tr>
+     </thead>
+     <tbody>  
+   
+    {% for tipoPersona in object_list %}
+       <tr>
+         <td>{{ tipoPersona.idtipo_persona}} </td>
+         <td>{{ tipoPersona.tipo_persona }} </td>
+         <td>{{ tipoPersona.descripcion }} </td>
+
+         <td>
+   
+           <!-- Usaremos un formulario que realizará la tarea de eliminar un registro o postre desde la misma tabla HTML -->                        
+           <form method="POST" action="eliminar/{{tipoPersona.idtipo_persona}}">
+            {% csrf_token %}
+             <div class="btn-group">
+             
+               <a href="detalle/{{tipoPersona.idtipo_persona}}" title="Ver"
+                    type="button" class="btn btn-success">Ver  </a>
+               <a href="editar/{{tipoPersona.idtipo_persona}}" title="Editar"
+                    type="button" class="btn btn-primary">Editar  </a>
+             
+               <!-- Este botón ejecuta el formulario para eliminar un registro o postre en la Base de datos -->
+               <button class="btn btn-danger" onclick="return eliminar();"
+                    type="submit">
+                Eliminar
+               </button>
+   
+             </div>
+           </form>
+   
+         </td>
+       </tr>
+    {% endfor %}
+   
+     </tbody>
+   </table>
+</head>
+<body>
+    
+</body>
+</html>

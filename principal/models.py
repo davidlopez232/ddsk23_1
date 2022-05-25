@@ -18,8 +18,6 @@ class Actividades(models.Model):
         managed = False
         db_table = 'actividades'
 
-    """ def __str__(self):
-        return str(self.nombre_actividad) """
 
 class Area(models.Model):
     idarea = models.AutoField(primary_key=True)
@@ -90,7 +88,7 @@ class CentroCalificaciones(models.Model):
 
 class CertificadoEstudio(models.Model):
     idcertificado_estudio = models.AutoField(primary_key=True)
-    grado = models.CharField(max_length=45)
+    grado = models.CharField(max_length=45, blank=True, null=True)
     descripcion = models.TextField(blank=True, null=True)
     colegios_idcolegios = models.ForeignKey('Colegios', models.DO_NOTHING, db_column='colegios_idcolegios')
     certificados_idcertificados = models.ForeignKey('TipoCertificados', models.DO_NOTHING, db_column='certificados_idcertificados')
@@ -143,7 +141,7 @@ class Departamento(models.Model):
 
 class Documentos(models.Model):
     iddocumentos = models.AutoField(primary_key=True)
-    nombredocu = models.CharField(max_length=45)
+    nombre = models.CharField(max_length=45)
     respositorio = models.IntegerField()
     estado_codumento_idestado_codumento = models.ForeignKey('EstadoDocumento', models.DO_NOTHING, db_column='estado_codumento_idestado_codumento')
 
@@ -170,6 +168,16 @@ class EstadoMatricula(models.Model):
     class Meta:
         managed = False
         db_table = 'estado_matricula'
+
+
+class Genero(models.Model):
+    idgenero = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=45)
+    descripcion = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'genero'
 
 
 class Grado(models.Model):
@@ -206,7 +214,7 @@ class Logros(models.Model):
 
 class Matricula(models.Model):
     idmatricula = models.AutoField(db_column='idMatricula', primary_key=True)  # Field name made lowercase.
-    formulario = models.TextField()
+    formulario = models.TextField(blank=True, null=True)
     estado_matricula_idestado_matricula = models.ForeignKey(EstadoMatricula, models.DO_NOTHING, db_column='estado_matricula_idestado_matricula')
     documentos_iddocumentos = models.ForeignKey(Documentos, models.DO_NOTHING, db_column='documentos_iddocumentos')
     certificado_estudio_idcertificado_estudio = models.ForeignKey(CertificadoEstudio, models.DO_NOTHING, db_column='certificado_estudio_idcertificado_estudio')
@@ -232,7 +240,7 @@ class NotificacionM(models.Model):
     idnotificacion_m = models.AutoField(primary_key=True)
     mail_de = models.CharField(max_length=45)
     mail_para = models.CharField(max_length=45)
-    info_no_valida = models.CharField(max_length=45)
+    info_no_valida = models.CharField(max_length=45, blank=True, null=True)
     descripcion = models.TextField(blank=True, null=True)
     tipo_notificacion_idtipo_notificacion = models.ForeignKey('TipoNotificacion', models.DO_NOTHING, db_column='tipo_notificacion_idtipo_notificacion')
     documentos_iddocumentos = models.ForeignKey(Documentos, models.DO_NOTHING, db_column='documentos_iddocumentos')
@@ -261,37 +269,34 @@ class Persona(models.Model):
     primer_apellido = models.CharField(max_length=45)
     segundo_apellido = models.CharField(max_length=45, blank=True, null=True)
     fecha_nacimiento = models.DateField()
+    genero_idgenero = models.ForeignKey(Genero, models.DO_NOTHING, db_column='genero_idgenero')
+    tipo_documento_idtipo_documento = models.ForeignKey('TipoDocumento', models.DO_NOTHING, db_column='tipo_documento_idtipo_documento')
+    identificacion = models.CharField(max_length=45)
+    fecha_expedicion_id = models.CharField(max_length=45)
+    lugar_expedicion_id = models.CharField(max_length=45)
     direccion = models.CharField(max_length=45)
     telefono = models.CharField(max_length=45)
-    identificacion = models.CharField(max_length=45)
     email = models.CharField(max_length=45)
-    genero = models.CharField(db_column='Genero', max_length=45)  # Field name made lowercase.
     edad = models.CharField(max_length=45)
     estado_civil = models.CharField(max_length=45)
     nacionalidad = models.CharField(max_length=45)
-    fecha_expedicion_id = models.CharField(max_length=45)
-    lugar_expedicion_id = models.CharField(max_length=45)
-    documento_de_discapacidades_fisicas = models.CharField(max_length=45, blank=True, null=True)
-    copia_de_visa = models.CharField(max_length=45, blank=True, null=True)
-    recibo_de_pago_de_matricula = models.CharField(db_column='recibo_de_pago_de_ matricula', max_length=45, blank=True, null=True)  # Field renamed to remove unsuitable characters.
-    paz_y_salvo = models.CharField(max_length=45, blank=True, null=True)
-    observador = models.CharField(db_column='Observador', max_length=45, blank=True, null=True)  # Field name made lowercase.
-    fotocopia_de_hdv = models.CharField(max_length=45, blank=True, null=True)
-    certificado_de_salud = models.CharField(max_length=45, blank=True, null=True)
-    certificado_de_la_eps = models.CharField(max_length=45, blank=True, null=True)
-    docuemto_de_retiro = models.CharField(max_length=45, blank=True, null=True)
-    tipo_documento_idtipo_documento = models.ForeignKey('TipoDocumento', models.DO_NOTHING, db_column='tipo_documento_idtipo_documento')
-    tipo_persona_idtipo_persona = models.ForeignKey('TipoPersona', models.DO_NOTHING, db_column='tipo_persona_idtipo_persona')
-    profesion_idprofesion = models.ForeignKey('Profesion', models.DO_NOTHING, db_column='profesion_idprofesion')
     departamento_iddepartamento = models.ForeignKey(Departamento, models.DO_NOTHING, db_column='departamento_iddepartamento')
     cargos_idcargos = models.ForeignKey(Cargos, models.DO_NOTHING, db_column='cargos_idcargos')
+    profesion_idprofesion = models.ForeignKey('Profesion', models.DO_NOTHING, db_column='profesion_idprofesion')
+    tipo_persona_idtipo_persona = models.ForeignKey('TipoPersona', models.DO_NOTHING, db_column='tipo_persona_idtipo_persona')
+    documento_de_discapacidades_fisicas = models.TextField(blank=True, null=True)
+    copia_de_visa = models.TextField(blank=True, null=True)
+    recibo_de_pago_de_matricula = models.TextField(db_column='recibo_de_pago_de_ matricula', blank=True, null=True)  # Field renamed to remove unsuitable characters.
+    paz_y_salvo = models.TextField(blank=True, null=True)
+    observador = models.TextField(db_column='Observador', blank=True, null=True)  # Field name made lowercase.
+    fotocopia_de_hdv = models.TextField(blank=True, null=True)
+    certificado_de_salud = models.TextField(blank=True, null=True)
+    certificado_de_la_eps = models.TextField(blank=True, null=True)
+    docuemto_de_retiro = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'persona'
-    
-    """ def __str__(self):
-        return str(self.idpersona, self.primer_nombre, self.segundo_nombre, self.primer_apellido, self.segundo_apellido, self.identificacion) """
 
 
 class Profesion(models.Model):
@@ -334,8 +339,6 @@ class TipoDocumento(models.Model):
         managed = False
         db_table = 'tipo_documento'
 
-    """ def __str__(self):
-        return str(self.idtipo_documento) """
 
 class TipoNotificacion(models.Model):
     idtipo_notificacion = models.AutoField(primary_key=True)
